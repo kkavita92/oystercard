@@ -11,8 +11,12 @@ class Oystercard
   end
 
   def top_up(top_up_amount)
-  raise(BalanceError, 'requested top-up amount exceeds limit!') if (@balance + top_up_amount) > MAX_BALANCE
-  @balance += top_up_amount
-end
+    raise(BalanceError, 'requested top-up amount exceeds limit!') if (@balance + top_up_amount) > MAX_BALANCE
+    @balance += top_up_amount
+  end
+
+  def deduct(debit_amount)
+    @balance -= debit_amount
+  end
 
 end

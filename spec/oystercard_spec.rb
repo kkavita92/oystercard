@@ -17,4 +17,14 @@ describe Oystercard do
     end
   end
 
+  describe '#deduct' do
+    it 'should be able to deduct an amount from card balance' do
+      top_up_amount = 10
+      debit_amount = 5
+      card = Oystercard.new(top_up_amount)
+      card.deduct(debit_amount)
+      expect(card.balance).to eq(top_up_amount - debit_amount)
+    end
+  end
+
 end
