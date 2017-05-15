@@ -1,7 +1,7 @@
 class BalanceError < StandardError; end
 
 class Oystercard
-  attr_reader :balance, :entry_station
+  attr_reader :balance, :entry_station, :list_of_journeys
 
   DEFAULT_BALANCE = 0
   MAX_BALANCE = 90
@@ -11,6 +11,7 @@ class Oystercard
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
     @entry_station = nil
+    @list_of_journeys = []
   end
 
   def top_up(top_up_amount)
