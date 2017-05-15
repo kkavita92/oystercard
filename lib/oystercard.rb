@@ -1,7 +1,7 @@
 class BalanceError < StandardError; end
 
 class Oystercard
-  attr_reader :balance, :entry_station, :list_of_journeys
+  attr_reader :balance, :entry_station, :journeys
 
   DEFAULT_BALANCE = 0
   MAX_BALANCE = 90
@@ -11,7 +11,7 @@ class Oystercard
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
     @entry_station = nil
-    @list_of_journeys = []
+    @journeys = []
   end
 
   def top_up(topup_amount)
@@ -22,12 +22,12 @@ class Oystercard
   def touch_in(station)
     raise(BalanceError, 'balance is too low') if insufficient_balance?
     @entry_station = station
-    @list_of_journeys << { entry_station: station }
+    @journeys << { entry_station: station }
   end
 
   def touch_out(station)
     @balance -= MIN_FARE
-    @list_of_journeys.last[:exit_station] = station
+    @journeys.last[:exit_station] = station
     @entry_station = nil
   end
 

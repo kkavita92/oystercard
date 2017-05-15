@@ -15,14 +15,14 @@ describe Oystercard do
   end
 
   it 'should have an empty list of journeys by default' do
-    expect(subject.list_of_journeys).to eq []
+    expect(subject.journeys).to be_empty
   end
 
   it 'should add a complete journey to the list of journeys if a card touches in AND out' do
     card = Oystercard.new(20)
     card.touch_in(entry_station)
     card.touch_out(exit_station)
-    expect(card.list_of_journeys[0]).to eq({entry_station: entry_station, exit_station: exit_station})
+    expect(card.journeys[0]).to eq({entry_station: entry_station, exit_station: exit_station})
   end
 
   describe '#top_up' do
