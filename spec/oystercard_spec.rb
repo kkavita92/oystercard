@@ -41,4 +41,12 @@ describe Oystercard do
     end
   end
 
+  describe '#touch_out' do
+    it 'should be able to touch out at barrier' do
+      station = double(:station)
+      subject.touch_out(station)
+      expect(subject.entry_station).to eq nil
+    end
+  end
+
 end
