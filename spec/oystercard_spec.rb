@@ -52,6 +52,13 @@ describe Oystercard do
       card = Oystercard.new
       expect { card.touch_in double(:station) }.to raise_error(BalanceError)
     end
+
+    it 'should be able to remember entry station after touch in' do
+      card = Oystercard.new(10)
+      station = double(:station)
+      card.touch_in(station)
+      expect(card.entry_station).to eq station
+    end
   end
 
   describe '#touch_out' do
@@ -66,6 +73,13 @@ describe Oystercard do
       minimum_fare = Oystercard::MIN_FARE
       card = Oystercard.new(top_up_amount)
       expect{ card.deduct(minimum_fare) }.to change{ card.balance }.by(-minimum_fare)
+    end
+
+    it 'should erase record of touched in station' do
+      subject.instance_variable_set("@entry_station", :station)
+      exit_station = double(:station)
+      subject.touch_out(exit_station)
+      expect(subject.entry_station).to eq nil
     end
   end
 
