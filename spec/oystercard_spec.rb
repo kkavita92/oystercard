@@ -1,6 +1,9 @@
 require 'oystercard'
 
 describe Oystercard do
+  let(:entry_station) { double :station }
+  let(:exit_station)  { double :station }
+
   it 'should be able to test that a freshly initialized card has a balance of 0 by default' do
     expect(subject.balance).to eq Oystercard::DEFAULT_BALANCE
   end
@@ -17,8 +20,6 @@ describe Oystercard do
 
   it 'should add a complete journey to the list of journeys if a card touches in AND out' do
     card = Oystercard.new(20)
-    entry_station = double(:station)
-    exit_station = double(:station)
     card.touch_in(entry_station)
     card.touch_out(exit_station)
     expect(card.list_of_journeys[0]).to eq({entry_station: entry_station, exit_station: exit_station})
@@ -41,50 +42,42 @@ describe Oystercard do
   end
 
   describe '#touch_in' do
+    before(:each) { @card = Oystercard.new(20) }
+
     it 'should be able to touch in at barrier' do
-      card = Oystercard.new(2)
-      station = :station
-      card.touch_in(station)
-      expect(card.entry_station).to eq station
+      @card.touch_in(entry_station)
+      expect(@card.entry_station).to eq entry_station
     end
 
     it 'should raise an error if balance is below minimum balance' do
       card = Oystercard.new
-      expect { card.touch_in double(:station) }.to raise_error(BalanceError)
+      expect { card.touch_in entry_station }.to raise_error(BalanceError)
     end
 
     it 'should be able to remember entry station after touch in' do
-      card = Oystercard.new(10)
-      station = double(:station)
-      card.touch_in(station)
-      expect(card.entry_station).to eq station
+      @card.touch_in(entry_station)
+      expect(@card.entry_station).to eq entry_station
     end
   end
 
   describe '#touch_out' do
+    before(:each) { @card = Oystercard.new(20) }
+
     it 'should be able to touch out at barrier' do
-      card = Oystercard.new(10)
-      entry_station = double(:station)
-      exit_station = double(:station)
-      card.touch_in(entry_station)
-      card.touch_out(exit_station)
-      expect(card.entry_station).to eq nil
+      @card.touch_in(entry_station)
+      @card.touch_out(exit_station)
+      expect(@card.entry_station).to eq nil
     end
 
     it 'should be able to update balance with reduced balance' do
-      top_up_amount = 10
       minimum_fare = Oystercard::MIN_FARE
-      card = Oystercard.new(top_up_amount)
-      expect{ card.deduct(minimum_fare) }.to change{ card.balance }.by(-minimum_fare)
+      expect{ @card.deduct(minimum_fare) }.to change{ @card.balance }.by(-minimum_fare)
     end
 
     it 'should erase record of touched in station' do
-      card = Oystercard.new(10)
-      entry_station = double(:station)
-      exit_station = double(:station)
-      card.touch_in(entry_station)
-      card.touch_out(exit_station)
-      expect(card.entry_station).to eq nil
+      @card.touch_in(entry_station)
+      @card.touch_out(exit_station)
+      expect(@card.entry_station).to eq nil
     end
   end
 
