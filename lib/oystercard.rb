@@ -19,13 +19,15 @@ class Oystercard
     @balance += topup_amount
   end
 
-  def touch_in(entry_station)
+  def touch_in(station)
     raise(BalanceError, 'balance is too low') if insufficient_balance?
-    @entry_station = entry_station
+    @entry_station = station
+    @list_of_journeys << { entry_station: station }
   end
 
-  def touch_out(exit_station)
+  def touch_out(station)
     @balance -= MIN_FARE
+    @list_of_journeys.last[:exit_station] = station
     @entry_station = nil
   end
 

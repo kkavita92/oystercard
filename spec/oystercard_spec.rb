@@ -63,9 +63,12 @@ describe Oystercard do
 
   describe '#touch_out' do
     it 'should be able to touch out at barrier' do
-      station = double(:station)
-      subject.touch_out(station)
-      expect(subject.entry_station).to eq nil
+      card = Oystercard.new(10)
+      entry_station = double(:station)
+      exit_station = double(:station)
+      card.touch_in(entry_station)
+      card.touch_out(exit_station)
+      expect(card.entry_station).to eq nil
     end
 
     it 'should be able to update balance with reduced balance' do
@@ -76,10 +79,12 @@ describe Oystercard do
     end
 
     it 'should erase record of touched in station' do
-      subject.instance_variable_set("@entry_station", :station)
+      card = Oystercard.new(10)
+      entry_station = double(:station)
       exit_station = double(:station)
-      subject.touch_out(exit_station)
-      expect(subject.entry_station).to eq nil
+      card.touch_in(entry_station)
+      card.touch_out(exit_station)
+      expect(card.entry_station).to eq nil
     end
   end
 
