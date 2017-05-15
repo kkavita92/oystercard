@@ -11,6 +11,19 @@ describe Oystercard do
     expect(subject.balance).to eq top_up_amount
   end
 
+  it 'should have an empty list of journeys by default' do
+    expect(subject.list_of_journeys).to eq []
+  end
+
+  it 'should add a complete journey to the list of journeys if a card touches in AND out' do
+    card = Oystercard.new(20)
+    entry_station = double(:station)
+    exit_station = double(:station)
+    card.touch_in(entry_station)
+    card.touch_out(exit_station)
+    expect(card.list_of_journeys[0]).to eq({entry_station: entry_station, exit_station: exit_station})
+  end
+
   describe '#top_up' do
     it "should raise an error when top_up_amount would cause card's balance to exceed maximum balance" do
       expect { subject.top_up(Oystercard::MAX_BALANCE + 1) }.to raise_error(BalanceError)
