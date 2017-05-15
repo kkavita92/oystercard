@@ -14,17 +14,13 @@ class Oystercard
     @list_of_journeys = []
   end
 
-  def top_up(top_up_amount)
-    raise(BalanceError, 'requested top-up amount exceeds limit!') if (@balance + top_up_amount) > MAX_BALANCE
-    @balance += top_up_amount
-  end
-
-  def deduct(debit_amount)
-    @balance -= debit_amount
+  def top_up(topup_amount)
+    raise(BalanceError, 'requested top-up amount exceeds limit!') if (@balance + topup_amount) > MAX_BALANCE
+    @balance += topup_amount
   end
 
   def touch_in(entry_station)
-    raise(BalanceError, 'balance is too low') if @balance < MIN_BALANCE
+    raise(BalanceError, 'balance is too low') if insufficient_balance?
     @entry_station = entry_station
   end
 
@@ -32,5 +28,17 @@ class Oystercard
     @balance -= MIN_FARE
     @entry_station = nil
   end
+
+  def deduct(debit_amount)
+    @balance -= debit_amount
+  end
+
+  private
+
+  def insufficient_balance?
+    @balance < MIN_BALANCE
+  end
+
+
 
 end
