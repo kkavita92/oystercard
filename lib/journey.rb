@@ -28,6 +28,7 @@ class Journey
 
   private
 
+
   def penalty?
     entry_station == nil || exit_station == nil
   end
