@@ -21,4 +21,11 @@ describe Journey do
     end
   end
 
+  describe '#fare' do
+
+    it 'should return the fare for the journey' do
+      expect(subject.fare).to eq Journey::MIN_FARE
+    end
+  end
+
 end
