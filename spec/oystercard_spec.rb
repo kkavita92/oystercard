@@ -42,7 +42,7 @@ describe Oystercard do
 
   describe '#deduct' do
     before {card.top_up(20)}
-    
+  
     it 'should be able to deduct an amount from card balance' do
       debit_amount = 10
       card.deduct(debit_amount)

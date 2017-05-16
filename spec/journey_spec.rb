@@ -1,4 +1,7 @@
 require 'journey'
 
 describe Journey do
-end 
+  it { is_expected.to respond_to(:fare) }
+  it { is_expected.to respond_to(:complete?) }
+  
+end

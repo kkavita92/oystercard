@@ -2,8 +2,14 @@ class FareError < StandardError; end
 
 class Journey
 
-  MIN_FARE = 2
+  def fare
+  end
+
+  def complete?
+  end 
+=begin
   PENALTY_FARE = 6
+
 
   def initialize(entry_station = nil)
     @entry_station = entry_station
@@ -12,7 +18,7 @@ class Journey
 
   def fare
     PENALTY_FARE unless complete?
-    MIN_FARE
+    2
   end
 
   def journey_end(exit_station = nil)
@@ -27,5 +33,5 @@ class Journey
   def penalty?
     !(entry_station == nil || exit_station == nil)
   end
-
+=end
 end
