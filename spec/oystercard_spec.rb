@@ -13,7 +13,13 @@ describe Oystercard do
     expect(card.journeys).to be_empty
   end
 
-  it 'should add a complete journey to the list of journeys if a card touches in AND out' do
+  it 'should save entry station when card touches in' do
+    card = Oystercard.new(20)
+    card.touch_in(entry_station)
+    expect(card.journeys[0]).to eq({entry_station: entry_station})
+  end
+
+  it 'should save exit station when card touches in' do
     card = Oystercard.new(20)
     card.touch_in(entry_station)
     card.touch_out(exit_station)
@@ -21,23 +27,26 @@ describe Oystercard do
   end
 
   describe '#top_up' do
+    before {card.top_up(20)}
+
     it "should enable an oystercard's balance to be topped up" do
-      top_up_amount = 10
+      top_up_amount = 5
       card.top_up(top_up_amount)
-      expect(card.balance).to eq top_up_amount
+      expect(card.balance).to eq 25
     end
 
     it "should raise an error when top_up_amount would cause card's balance to exceed maximum balance" do
-      expect { subject.top_up(Oystercard::MAX_BALANCE + 1) }.to raise_error(BalanceError)
+      expect { subject.top_up(Oystercard::MAX_BALANCE)}.to raise_error(BalanceError)
     end
   end
 
   describe '#deduct' do
+    before {card.top_up(20)}
+    
     it 'should be able to deduct an amount from card balance' do
-      card.top_up(20)
       debit_amount = 10
       card.deduct(debit_amount)
-      expect(card.balance).to eq(20 - debit_amount)
+      expect(card.balance).to eq 10
     end
   end
 
@@ -53,7 +62,6 @@ describe Oystercard do
       card = Oystercard.new
       expect { card.touch_in entry_station }.to raise_error(BalanceError)
     end
-
   end
 
   describe '#touch_out' do
