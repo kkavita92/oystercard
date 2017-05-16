@@ -88,6 +88,9 @@
         null,
         null
       ],
+      "/Users/kavitak/oyster_card/spec/journeyclass_spec.rb": [
+
+      ],
       "/Users/kavitak/oyster_card/spec/oystercard_spec.rb": [
         1,
         null,
@@ -251,6 +254,6 @@
         null
       ]
     },
-    "timestamp": 1494977277
+    "timestamp": 1494977516
   }
 }
