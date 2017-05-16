@@ -2,7 +2,7 @@ class FareError < StandardError; end
 
 class Journey
 
-  attr_reader :complete, :entry_station
+  attr_reader :complete, :entry_station, :exit_station
 
   def initialize(entry_station = nil)
     @entry_station = entry_station
@@ -12,8 +12,9 @@ class Journey
   def fare
   end
 
-  def end_journey(exit_station)
-  end 
+  def end_journey(exit_station = nil)
+    @exit_station = exit_station
+  end
 
   def complete?
     @complete

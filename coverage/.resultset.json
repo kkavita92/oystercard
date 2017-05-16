@@ -12,6 +12,11 @@
         1,
         1,
         null,
+        null,
+        1,
+        1,
+        null,
+        null,
         null
       ],
       "/Users/kavitak/oyster_card/lib/journey.rb": [
@@ -22,14 +27,15 @@
         1,
         null,
         1,
-        4,
-        4,
+        5,
+        5,
         null,
         null,
         1,
         null,
         null,
         1,
+        0,
         null,
         null,
         1,
@@ -227,6 +233,6 @@
         null
       ]
     },
-    "timestamp": 1494971254
+    "timestamp": 1494973953
   }
 }
