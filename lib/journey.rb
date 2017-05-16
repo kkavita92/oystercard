@@ -12,6 +12,9 @@ class Journey
   def fare
   end
 
+  def end_journey(exit_station)
+  end 
+
   def complete?
     @complete
   end
