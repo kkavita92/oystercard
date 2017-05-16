@@ -10,7 +10,6 @@ class Oystercard
 
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
-    @entry_station = nil
     @journeys = []
   end
 
@@ -21,14 +20,12 @@ class Oystercard
 
   def touch_in(station)
     raise(BalanceError, 'balance is too low') if insufficient_balance?
-    @entry_station = station
     @journeys << { entry_station: station }
   end
 
   def touch_out(station)
     @balance -= MIN_FARE
     @journeys.last[:exit_station] = station
-    @entry_station = nil
   end
 
   def deduct(debit_amount)

@@ -9,12 +9,6 @@ describe Oystercard do
     expect(card.balance).to eq Oystercard::DEFAULT_BALANCE
   end
 
-  it "should enable an oystercard's balance to be topped up" do
-    top_up_amount = 10
-    card.top_up(top_up_amount)
-    expect(card.balance).to eq top_up_amount
-  end
-
   it 'should have an empty list of journeys by default' do
     expect(card.journeys).to be_empty
   end
@@ -27,6 +21,12 @@ describe Oystercard do
   end
 
   describe '#top_up' do
+    it "should enable an oystercard's balance to be topped up" do
+      top_up_amount = 10
+      card.top_up(top_up_amount)
+      expect(card.balance).to eq top_up_amount
+    end
+
     it "should raise an error when top_up_amount would cause card's balance to exceed maximum balance" do
       expect { subject.top_up(Oystercard::MAX_BALANCE + 1) }.to raise_error(BalanceError)
     end
@@ -44,9 +44,9 @@ describe Oystercard do
   describe '#touch_in' do
     before{card.top_up(20)}
 
-    it 'should be able to touch in at barrier' do
+    it 'should remember entry station after touch in at barrier' do
       card.touch_in(entry_station)
-      expect(card.entry_station).to eq entry_station
+      expect(card.journeys).to eq ([{entry_station: entry_station}])
     end
 
     it 'should raise an error if balance is below minimum balance' do
@@ -54,10 +54,6 @@ describe Oystercard do
       expect { card.touch_in entry_station }.to raise_error(BalanceError)
     end
 
-    it 'should be able to remember entry station after touch in' do
-      card.touch_in(entry_station)
-      expect(card.entry_station).to eq entry_station
-    end
   end
 
   describe '#touch_out' do
