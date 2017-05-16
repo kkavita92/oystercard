@@ -12,5 +12,13 @@ describe Journey do
   it 'exit station should have default value of nil' do
     expect(subject.exit_station).to eq nil
   end
-  
+
+  describe '#end_journey' do
+
+    it 'should complete the journey' do
+      subject.end_journey
+      expect(subject).to be_complete
+    end
+  end
+
 end
