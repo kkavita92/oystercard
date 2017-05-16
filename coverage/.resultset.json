@@ -1,6 +1,9 @@
 {
   "RSpec": {
     "coverage": {
+      "/Users/kavitak/oyster_card/spec/journey_spec.rb": [
+
+      ],
       "/Users/kavitak/oyster_card/spec/oystercard_spec.rb": [
         1,
         null,
@@ -156,6 +159,6 @@
         null
       ]
     },
-    "timestamp": 1494894156
+    "timestamp": 1494931161
   }
 }
