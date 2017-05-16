@@ -2,11 +2,19 @@ class FareError < StandardError; end
 
 class Journey
 
+  attr_reader :complete, :entry_station
+
+  def initialize(entry_station = nil)
+    @entry_station = entry_station
+    @complete = false
+  end
+
   def fare
   end
 
   def complete?
-  end 
+    @complete
+  end
 =begin
   PENALTY_FARE = 6
 
