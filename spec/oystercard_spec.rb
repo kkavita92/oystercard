@@ -40,16 +40,6 @@ describe Oystercard do
     end
   end
 
-  describe '#deduct' do
-    before {card.top_up(20)}
-  
-    it 'should be able to deduct an amount from card balance' do
-      debit_amount = 10
-      card.deduct(debit_amount)
-      expect(card.balance).to eq 10
-    end
-  end
-
   describe '#touch_in' do
     before{card.top_up(20)}
 
@@ -66,20 +56,18 @@ describe Oystercard do
 
   describe '#touch_out' do
     before{card.top_up(20)}
+    before{card.touch_in(entry_station)}
 
     it 'should be able to touch out at barrier' do
-      card.touch_in(entry_station)
       card.touch_out(exit_station)
       expect(card.entry_station).to eq nil
     end
 
     it 'should be able to update balance with reduced balance' do
-      minimum_fare = Oystercard::MIN_FARE
-      expect{ card.deduct(minimum_fare) }.to change{ card.balance }.by(-minimum_fare)
+      expect{ card.touch_out(exit_station) }.to change{ card.balance }.by(-(Journey::PENALTY_FARE))
     end
 
     it 'should erase record of touched in station' do
-      card.touch_in(entry_station)
       card.touch_out(exit_station)
       expect(card.entry_station).to eq nil
     end

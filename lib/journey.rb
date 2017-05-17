@@ -1,5 +1,3 @@
-class FareError < StandardError; end
-
 class Journey
 
   attr_reader :complete, :entry_station, :exit_station
