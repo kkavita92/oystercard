@@ -4,7 +4,7 @@ require_relative './journey'
 class BalanceError < StandardError; end
 
 class Oystercard
-  attr_reader :balance, :entry_station, :journeys
+  attr_reader :balance, :entry_station, :journeys, :journey
 
   DEFAULT_BALANCE = 0
   MAX_BALANCE = 90
@@ -23,12 +23,13 @@ class Oystercard
   def touch_in(station)
     raise(BalanceError, 'balance is too low') if insufficient_balance?
     @journey = Journey.new(station)
-    @journeys << { entry_station: station }
+    @journeys << { entry_station: @journey.entry_station }
   end
 
   def touch_out(station)
     deduct_fare
-    @journeys.last[:exit_station] = station
+    @journey.end_journey(station)
+    @journeys.last[:exit_station] = @journey.exit_station
   end
 
   private
