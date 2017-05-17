@@ -23,13 +23,13 @@ class Oystercard
   def touch_in(station)
     raise(BalanceError, 'balance is too low') if insufficient_balance?
     @journey = Journey.new(station)
-    @journeys << { entry_station: @journey.entry_station }
+    @journeys << { entry_station: station }
   end
 
   def touch_out(station)
     deduct_fare
     @journey.end_journey(station)
-    @journeys.last[:exit_station] = @journey.exit_station
+    @journeys.last[:exit_station] = station
   end
 
   private

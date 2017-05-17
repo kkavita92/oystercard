@@ -3,6 +3,7 @@ require 'oystercard'
 describe Oystercard do
   let(:entry_station) { double :station }
   let(:exit_station)  { double :station }
+  let(:journey) {double :journey }
   subject(:card) { described_class.new(20) }
   subject(:empty_card) { described_class.new }
 
@@ -14,16 +15,6 @@ describe Oystercard do
     expect(card.journeys).to be_empty
   end
 
-  it 'should save entry station when card touches in' do
-    card.touch_in(entry_station)
-    expect(card.journeys[0]).to eq({entry_station: entry_station})
-  end
-
-  it 'should save exit station when card touches in' do
-    card.touch_in(entry_station)
-    card.touch_out(exit_station)
-    expect(card.journeys[0]).to eq({entry_station: entry_station, exit_station: exit_station})
-  end
 
   describe '#top_up' do
 
@@ -46,7 +37,7 @@ describe Oystercard do
     end
 
     it 'should raise an error if balance is below minimum balance' do
-      expect { empty_card.touch_in entry_station }.to raise_error(BalanceError)
+      expect { empty_card.touch_in(entry_station) }.to raise_error(BalanceError)
     end
   end
 
@@ -62,10 +53,11 @@ describe Oystercard do
       expect{ card.touch_out(exit_station) }.to change{ card.balance }.by(-(Journey::PENALTY_FARE))
     end
 
-    it 'should erase record of touched in station' do
+    it 'should save exit station when card touches out' do
       card.touch_out(exit_station)
-      expect(card.entry_station).to eq nil
+      expect(card.journeys[0]).to eq({entry_station: entry_station, exit_station: exit_station})
     end
   end
+
 
 end
