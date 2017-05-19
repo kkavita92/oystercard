@@ -9,7 +9,6 @@ class Oystercard
 
   DEFAULT_BALANCE = 0
   MAX_BALANCE = 90
-  MIN_BALANCE = 1
 
   def initialize(balance = DEFAULT_BALANCE, journey_log = JourneyLog.new)
     @journey_log = journey_log
@@ -23,6 +22,7 @@ class Oystercard
 
   def touch_in(station)
     raise(BalanceError, 'balance is too low') if insufficient_balance?
+    reset_journey if journey_log.current_journey != nil
     journey_log.start(station)
   end
 
@@ -34,12 +34,18 @@ class Oystercard
   private
 
   def insufficient_balance?
-    @balance < MIN_BALANCE
+    @balance < Journey::MIN_FARE
   end
 
 
   def deduct_fare
-    @balance -= journey_log.pending_charges
+    @balance -= journey_log.charge
+    journey_log.reset
+  end
+
+  def reset_journey
+    journey_log.finish(nil)
+    @balance -= journey_log.charge
   end
 
 

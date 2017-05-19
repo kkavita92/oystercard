@@ -1,14 +1,15 @@
 class JourneyLog
 
-  attr_reader :current_journey
+  attr_reader :current_journey, :outstanding_charges
 
   def initialize(journey_class = Journey)
     @journey_class = journey_class
+    @current_journey = nil
     @journeys = []
   end
 
   def start(station)
-    #reset_journey if incomplete_journey? #should charge penalty fare #need to change to nil?
+    #reset_journey unless @current_journey.complete?
     @current_journey = @journey_class.new(station)
     @journeys << { entry_station: station }
   end
@@ -22,14 +23,12 @@ class JourneyLog
     @journeys.dup
   end
 
-  def pending_charges
+  def charge
     @current_journey.fare
   end
 
-  private
-
-  def reset_journey
-    @current_journey.end_journey
+  def reset
+    @current_journey = nil 
   end
 
 
