@@ -27,6 +27,9 @@ class Oystercard
   end
 
   def touch_out(station)
+    if journey_log.current_journey == nil
+      journey_log.start(nil)
+    end
     journey_log.finish(station)
     deduct_fare(journey_log.charge)
     journey_log.reset
@@ -45,7 +48,7 @@ class Oystercard
 
   def reset_journey
     journey_log.finish(nil)
-    @balance -= journey_log.charge
+    deduct_fare(journey_log.charge)
   end
 
 

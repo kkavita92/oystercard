@@ -9,7 +9,6 @@ class JourneyLog
   end
 
   def start(station)
-    #reset_journey unless @current_journey.complete?
     @current_journey = @journey_class.new(station)
   end
 

@@ -49,18 +49,18 @@ describe Oystercard do
   describe '#touch_out' do
     before{ card.touch_in(entry_station) }
 
-    it 'should be able to touch out at barrier' do
-      card.touch_out(exit_station)
-      expect(card.entry_station).to eq nil
-    end
-
-    it 'should be able to update balance with reduced balance' do
+    it 'should reduce balance by journey fare' do
       expect{ card.touch_out(exit_station) }.to change{ card.balance }.by(-(Journey::MIN_FARE))
     end
 
     it 'should save exit station when card touches out' do
       card.touch_out(exit_station)
       expect(card.journey_log.journeys.last.exit_station).to eq exit_station
+    end
+
+    it 'should deduct PENALTY_FARE if we touch out twice' do
+      card.touch_out(exit_station)
+      expect{ card.touch_out(entry_station) }.to change{ card.balance }.by(-(Journey::PENALTY_FARE))
     end
   end
 
