@@ -1,18 +1,19 @@
 require_relative './station'
 require_relative './journey'
+require_relative './journeylog'
 
 class BalanceError < StandardError; end
 
 class Oystercard
-  attr_reader :balance, :entry_station, :journeys, :journey
+  attr_reader :balance, :entry_station, :journey_log
 
   DEFAULT_BALANCE = 0
   MAX_BALANCE = 90
   MIN_BALANCE = 1
 
-  def initialize(balance = DEFAULT_BALANCE)
+  def initialize(balance = DEFAULT_BALANCE, journey_log = JourneyLog.new)
+    @journey_log = journey_log
     @balance = balance
-    @journeys = []
   end
 
   def top_up(amount)
@@ -22,14 +23,12 @@ class Oystercard
 
   def touch_in(station)
     raise(BalanceError, 'balance is too low') if insufficient_balance?
-    @journey = Journey.new(station)
-    @journeys << { entry_station: station }
+    journey_log.start(station)
   end
 
   def touch_out(station)
     deduct_fare
-    @journey.end_journey(station)
-    @journeys.last[:exit_station] = station
+    journey_log.finish(station)
   end
 
   private
@@ -40,10 +39,8 @@ class Oystercard
 
 
   def deduct_fare
-    @balance -= @journey.fare
+    @balance -= journey_log.pending_charges
   end
-
-
 
 
 end
