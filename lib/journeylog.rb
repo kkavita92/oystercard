@@ -11,12 +11,11 @@ class JourneyLog
   def start(station)
     #reset_journey unless @current_journey.complete?
     @current_journey = @journey_class.new(station)
-    @journeys << { entry_station: station }
   end
 
   def finish(station)
     @current_journey.end_journey(station)
-    @journeys.last[:exit_station] = station #needs to reset current journey
+    @journeys << @current_journey
   end
 
   def journeys

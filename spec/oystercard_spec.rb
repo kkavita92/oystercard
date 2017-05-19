@@ -33,7 +33,7 @@ describe Oystercard do
 
     it 'should remember entry station after touch in at barrier' do
       card.touch_in(entry_station)
-      expect(card.journey_log.journeys).to eq ([{entry_station: entry_station}])
+      expect(card.journey_log.current_journey.entry_station).to eq entry_station
     end
 
     it 'should raise an error if balance is below minimum balance' do
@@ -60,7 +60,7 @@ describe Oystercard do
 
     it 'should save exit station when card touches out' do
       card.touch_out(exit_station)
-      expect(card.journey_log.journeys[0]).to eq({entry_station: entry_station, exit_station: exit_station})
+      expect(card.journey_log.journeys.last.exit_station).to eq exit_station
     end
   end
 
