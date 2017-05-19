@@ -12,7 +12,7 @@ class Journey
 
   def fare
     return PENALTY_FARE unless complete?
-    MIN_FARE
+    MIN_FARE + absolute_zone_difference
   end
 
   def end_journey(exit_station = nil)
@@ -21,6 +21,9 @@ class Journey
 
   private
 
+  def absolute_zone_difference
+    (@entry_station.zone - @exit_station.zone).abs
+  end
 
   def complete?
     entry_station != nil  && exit_station != nil

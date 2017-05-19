@@ -1,8 +1,8 @@
 require 'journey'
 
 describe Journey do
-  let (:station) {double :station}
-  let (:station2) {double :station}
+  let (:station) {double :station, zone: 1}
+  let (:station2) {double :station, zone: 2}
 
   # describe '#end_journey' do
   #   it 'should complete the journey' do
@@ -17,7 +17,7 @@ describe Journey do
     it 'should return the fare for the journey if touched in/out' do
       journey = Journey.new(station)
       journey.end_journey(station2)
-      expect(journey.fare).to eq Journey::MIN_FARE
+      expect(journey.fare).to eq 2
     end
   end
 
@@ -43,5 +43,7 @@ describe Journey do
       expect(subject.fare).to eq Journey::PENALTY_FARE
     end
   end
+
+
 
 end
