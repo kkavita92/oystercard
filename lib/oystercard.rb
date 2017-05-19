@@ -24,15 +24,15 @@ class Oystercard
     raise(BalanceError, 'balance is too low') if insufficient_balance?
     reset_journey if journey_log.current_journey != nil
     journey_log.start(station)
+    self
   end
 
   def touch_out(station)
-    if journey_log.current_journey == nil
-      journey_log.start(nil)
-    end
+    journey_log.start(nil) if !journey_log.current_journey
     journey_log.finish(station)
     deduct_fare(journey_log.charge)
     journey_log.reset
+    self
   end
 
   private
