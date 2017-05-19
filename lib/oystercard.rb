@@ -28,7 +28,8 @@ class Oystercard
 
   def touch_out(station)
     journey_log.finish(station)
-    deduct_fare
+    deduct_fare(journey_log.charge)
+    journey_log.reset
   end
 
   private
@@ -38,9 +39,8 @@ class Oystercard
   end
 
 
-  def deduct_fare
-    @balance -= journey_log.charge
-    journey_log.reset
+  def deduct_fare(fare)
+    @balance -= fare
   end
 
   def reset_journey

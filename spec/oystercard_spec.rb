@@ -40,10 +40,10 @@ describe Oystercard do
       expect { empty_card.touch_in(entry_station) }.to raise_error(BalanceError)
     end
 
-    it 'should deduct PENALTY_FARE if we touch in twice' do
-      card.touch_in(entry_station)
-      expect{ card.touch_in(exit_station) }.to change{ card.balance }.by(-(Journey::PENALTY_FARE))
-    end
+     it 'should deduct PENALTY_FARE if we touch in twice' do
+       card.touch_in(entry_station)
+       expect{ card.touch_in(exit_station) }.to change{ card.balance }.by(-(Journey::PENALTY_FARE))
+     end
   end
 
   describe '#touch_out' do

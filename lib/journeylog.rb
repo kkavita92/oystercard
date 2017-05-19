@@ -1,6 +1,6 @@
 class JourneyLog
 
-  attr_reader :current_journey, :outstanding_charges
+  attr_reader :current_journey
 
   def initialize(journey_class = Journey)
     @journey_class = journey_class
@@ -28,7 +28,7 @@ class JourneyLog
   end
 
   def reset
-    @current_journey = nil 
+    @current_journey = nil
   end
 
 

@@ -4,12 +4,12 @@ describe Journey do
   let (:station) {double :station}
   let (:station2) {double :station}
 
-  describe '#end_journey' do
-    it 'should complete the journey' do
-      subject.end_journey
-      expect(subject).to be_complete
-    end
-  end
+  # describe '#end_journey' do
+  #   it 'should complete the journey' do
+  #     subject.end_journey
+  #     expect(subject).to be_complete
+  #   end
+  # end
 
   describe '#fare' do
     subject {described_class.new(station)}
