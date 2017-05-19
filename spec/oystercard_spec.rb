@@ -12,7 +12,7 @@ describe Oystercard do
   end
 
   it 'should have an empty list of journeys by default' do
-    expect(card.journeys).to be_empty
+    expect(card.journey_log.journeys).to be_empty
   end
 
 
@@ -33,7 +33,7 @@ describe Oystercard do
 
     it 'should remember entry station after touch in at barrier' do
       card.touch_in(entry_station)
-      expect(card.journeys).to eq ([{entry_station: entry_station}])
+      expect(card.journey_log.journeys).to eq ([{entry_station: entry_station}])
     end
 
     it 'should raise an error if balance is below minimum balance' do
@@ -50,12 +50,12 @@ describe Oystercard do
     end
 
     it 'should be able to update balance with reduced balance' do
-      expect{ card.touch_out(exit_station) }.to change{ card.balance }.by(-(Journey::PENALTY_FARE))
+      expect{ card.touch_out(exit_station) }.to change{ card.balance }.by(-(Journey::MIN_FARE))
     end
 
     it 'should save exit station when card touches out' do
       card.touch_out(exit_station)
-      expect(card.journeys[0]).to eq({entry_station: entry_station, exit_station: exit_station})
+      expect(card.journey_log.journeys[0]).to eq({entry_station: entry_station, exit_station: exit_station})
     end
   end
 
